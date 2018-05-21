@@ -1,0 +1,57 @@
+
+1)
+SELECT country.country_id,country.country, COUNT(*)
+ from city, country
+ where country.country_id = city.country_id
+ group by country, country.country_id order by country_id 
+ 
+ 2)
+ SELECT country.country_id,country.country, COUNT(*)
+ from city, country
+ where country.country_id = city.country_id
+ group by country, country.country_id  
+  HAVING COUNT(*)>10 
+  order by COUNT(*) DESC
+  
+  3)
+  
+ SELECT payment.customer_id, SUM(amount),customer.last_name, customer.first_name, address.address, COUNT(rental.rental_id)-- , address.address, customer.last_name-- , SUM(amount), rental_id
+ from payment,customer,address, rental
+ where payment.customer_id = customer.customer_id and customer.address_id = address.address_id and customer.customer_id = rental.customer_id
+ GROUP by payment.customer_id, customer.last_name, customer.first_name, address.address, rental.customer_id
+ ORDER BY SUM(amount) DESC;
+ 
+ 4)
+select title
+FROM film
+where film_id NOT IN  (select film_id 
+						 from inventory
+						 group by (film_id )order by film_id);
+						 
+5)		  
+select title, inventory_id
+FROM film, inventory
+where film.film_id = inventory.film_id
+AND film.film_id IN  (select film_id 
+						 from inventory
+						 group by (film_id )order by film_id)
+AND title  NOT IN (SELECT DISTINCT film.title -- Muestra una vez el titulo y no cada vez que este en cada tabla como uno distinto y diferente 
+FROM film, inventory, rental
+WHERE film.film_id = inventory.film_id
+AND inventory.inventory_id = rental.inventory_id);
+
+6)
+select *
+from rental
+where return_date is NULL ;
+
+7)
+select customer.first_name, customer.last_name, store.store_id, film.title
+from rental, film,customer,store, staff, inventory
+where return_date is NULL 
+    and rental.customer_id = customer.customer_id
+    and store.store_id = staff.store_id
+    and staff.staff_id = rental.staff_id
+    and film.film_id = inventory.film_id
+    and inventory.inventory_id = rental.inventory_id
+order by store.store_id, customer.last_name;
