@@ -52,3 +52,20 @@ where return_date is NULL
     and film.film_id = inventory.film_id
     and inventory.inventory_id = rental.inventory_id
 order by store.store_id, customer.last_name;
+
+8)
+SELECT COUNT(*) AS 'Sales per Film Rating', f.rating
+FROM film f
+	INNER JOIN inventory USING (film_id)
+	INNER JOIN rental USING (inventory_id)
+GROUP BY f.rating;
+	
+9)
+SELECT COUNT(*) AS 'Cantidad de Peliculas', a.last_name,a.first_name 
+FROM actor a 
+	INNER JOIN film_actor USING(actor_id)
+	INNER JOIN film USING(film_id)
+GROUP BY a.last_name, a.first_name 
+LIMIT 1;
+
+10)
