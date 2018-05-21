@@ -3,7 +3,8 @@
 SELECT country.country_id,country.country, COUNT(*)
  from city, country
  where country.country_id = city.country_id
- group by country, country.country_id order by country_id 
+ group by country, country.country_id 
+ order by country_id 
  
  2)
  SELECT country.country_id,country.country, COUNT(*)
