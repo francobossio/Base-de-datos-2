@@ -25,17 +25,13 @@ SELECT country.country_id,country.country, COUNT(*)
  4)
 select title
 FROM film
-where film_id NOT IN  (select film_id 
-						 from inventory
-						 group by (film_id )order by film_id);
+where film_id NOT IN  (select film_id from inventory group by (film_id )order by film_id);
 						 
 5)		  
 select title, inventory_id
 FROM film, inventory
 where film.film_id = inventory.film_id
-AND film.film_id IN  (select film_id 
-						 from inventory
-						 group by (film_id )order by film_id)
+AND film.film_id IN  (select film_id from inventory group by (film_id )order by film_id)
 AND title  NOT IN (SELECT DISTINCT film.title -- Muestra una vez el titulo y no cada vez que este en cada tabla como uno distinto y diferente 
 FROM film, inventory, rental
 WHERE film.film_id = inventory.film_id
