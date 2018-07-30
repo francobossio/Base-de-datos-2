@@ -38,6 +38,52 @@ FROM rental
 	INNER JOIN inventory USING (inventory_id)
 	WHERE film_id = 1;
 
+#6
+SELECT inventory_id, rental_id, store_id
+FROM film
+INNER JOIN inventory USING(film_id)
+INNER JOIN rental USING(inventory_id)
+WHERE rental.return_date IS NOT NULL
+and store_id = 2
+
+-- inventory_id 
+
+INSERT INTO sakila.rental
+(rental_date, inventory_id, customer_id, return_date, staff_id)
+--
+
+SELECT CURRENT_TIMESTAMP,        
+        t1.inventory_id, 
+        customer.customer_id,
+        NULL,
+        t1.staff_id
+FROM customer
+INNER JOIN (SELECT store_id, staff_id, inventory_id
+          FROM staff
+          INNER JOIN store USING(store_id)
+          INNER JOIN inventory USING(store_id)
+          WHERE inventory_id = 10) t1
+     USING(store_id)
+ORDER BY customer_id DESC
+LIMIT 1;
+
+--
+INSERT INTO sakila.payment
+(customer_id, staff_id, rental_id, amount, payment_date, last_update)
+--
+
+
+SELECT r.customer_id, 
+       r.staff_id, 
+       r.rental_id,
+      (SELECT f.rental_rate 
+       from film f
+       inner join inventory i USING (film_id)
+       WHERE i.inventory_id = r.inventory_id ) as amount,
+       r.rental_date   
+FROM rental r
+WHERE return_date IS NULL
+AND inventory_id = 10;
 DELETE rental
 FROM inventory
 	INNER JOIN rental USING (inventory_id)
