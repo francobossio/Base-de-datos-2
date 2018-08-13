@@ -19,4 +19,25 @@ CREATE OR REPLACE VIEW film_details AS
 	INNER JOIN actor a USING(actor_id)
 	GROUP BY 1,2,3,4,5,6,7;
 #3
-CREATE OR REPLACE VIEW sales_by_film_category
+ CREATE OR REPLACE VIEW sales_by_film_category AS
+ 	SELECT name, SUM(payment.amount)
+ 	FROM category
+ 	INNER JOIN film_category USING(category_id)
+ 	INNER JOIN film USING(film_id)
+ 	INNER JOIN inventory USING(film_id)
+ 	INNER JOIN rental USING(inventory_id)
+ 	INNER JOIN payment USING(rental_id)
+ 	GROUP BY name
+ 
+ SELECT* from sales_by_film_category ; 
+
+#4
+ CREATE OR REPLACE VIEW actor_information AS
+ 	SELECT actor_id, first_name, last_name, COUNT(film_actor.actor_id)
+ 	FROM actor
+ 	INNER join film_actor USING (actor_id)
+ 	WHERE (film_actor.actor_id = actor.actor_id)
+ 	GROUP BY actor_id
+ ; 
+ 
+SELECT * from actor_information;
