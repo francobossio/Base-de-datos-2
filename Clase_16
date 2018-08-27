@@ -1,0 +1,16 @@
+#Ej1
+INSERT INTO sakila.employees (employeeNumber, lastName, firstName, extension, email, officeCode, reportsTo, jobTitle)
+VALUES(0, 'Lola', 'Landa', 'x4611', 'asdasdas', 1, 1002, 'President');
+
+#Ej2
+UPDATE sakila.employees SET employeeNumber = employeeNumber - 20
+UPDATE sakila.employees SET employeeNumber = employeeNumber + 20
+
+#Ej3
+ALTER TABLE sakila.employees
+ADD COLUMN age INT;
+
+ALTER TABLE sakila.employees
+ADD CONSTRAINT age_restriction CHECK (age>16 AND age<70);
+
+#Ej4
